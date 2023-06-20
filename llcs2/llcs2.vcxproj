@@ -19,27 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="share\game\prims\interface.hpp" />
-    <ClInclude Include="share\game\prims\recv.hpp" />
-    <ClInclude Include="share\memory\address.hpp" />
-    <ClInclude Include="share\memory\bytes.hpp" />
-    <ClInclude Include="share\memory\native.hpp" />
-    <ClInclude Include="share\runtime\runtime.hpp" />
-    <ClInclude Include="share\serialization\hashing.hpp" />
-    <ClInclude Include="share\share.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="share\game\prims\interface.inline.inl" />
-    <None Include="share\game\prims\recv.inline.inl" />
-    <None Include="share\memory\address.inline.inl" />
-    <None Include="share\memory\bytes.inline.inl" />
-    <None Include="share\memory\native.inline.inl" />
-    <None Include="share\runtime\runtime.inline.inl" />
-    <None Include="share\serialization\hashing.inline.inl" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="entry.cpp" />
-    <ClCompile Include="share\runtime\runtime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="toolkit\mem\ptr.hpp" />
+    <ClInclude Include="toolkit\mem\os.hpp" />
+    <ClInclude Include="toolkit\misc\bitfld.hpp" />
+    <ClInclude Include="toolkit\toolkit.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="toolkit\mem\os.inline.inl" />
+    <None Include="toolkit\mem\ptr.inline.inl" />
+    <None Include="toolkit\misc\bitfld.inline.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

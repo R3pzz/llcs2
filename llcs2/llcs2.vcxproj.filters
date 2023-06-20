@@ -15,60 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="share\memory\address.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\memory\bytes.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\memory\native.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\runtime\runtime.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\serialization\hashing.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\share.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\game\prims\interface.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="share\game\prims\recv.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="share\memory\address.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\memory\bytes.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\memory\native.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\runtime\runtime.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\serialization\hashing.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\game\prims\interface.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="share\game\prims\recv.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="share\runtime\runtime.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="entry.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="toolkit\mem\ptr.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkit\toolkit.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkit\mem\os.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkit\misc\bitfld.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="toolkit\mem\ptr.inline.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="toolkit\mem\os.inline.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="toolkit\misc\bitfld.inline.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
   </ItemGroup>
 </Project>
