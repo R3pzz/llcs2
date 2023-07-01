@@ -1,84 +1,84 @@
 #pragma once
 
 namespace os {
-	struct uni_string_t {
-		inline constexpr uni_string_t( ) = default;
+	struct UniString {
+		std::uint16_t			_length{},
+											_maxLength{};
+
+		wchar_t						*_data{};
+
+		inline constexpr UniString( ) = default;
 
 		inline auto wstr( ) const;
-
-		std::uint16_t			m_length{},
-											m_max_length{};
-
-		wchar_t						*m_data{};
 	};
 
-	struct ldr_entry_t {
-		LIST_ENTRY				m_in_load_links{},
-											m_in_mem_links{},
-											m_in_init_links{};
+	struct LdrEntry {
+		LIST_ENTRY				_inLoadLinks{},
+											_inMemLinks{},
+											_inInitLinks{};
 
-		ptr_t							m_dll_base{},
-											m_entry_point{};
-		std::uint32_t			m_image_size{};
+		Mem								_dllBase{},
+											_entryPoint{};
+		std::uint32_t			_imageSize{};
 
-		uni_string_t			m_full_dll_name{},
-											m_base_dll_name{};
+		UniString					_fullDllName{},
+											_baseDllName{};
 
-		bitfield_t< std::uint32_t > m_flags{};
+		Bitfield< std::uint32_t > _flags{};
 
-		std::uint16_t			m_load_count{},
-											m_tls_idx{};
+		std::uint16_t			_loadCount{},
+											_tlsIndex{};
 
-		LIST_ENTRY				m_hash_links{};
+		LIST_ENTRY				_hashLinks{};
 	};
 
-	struct ldr_data_t {
-		inline void for_each_in_load_entry(
-			const std::function< bool( ldr_entry_t * ) > &fn );
+	struct LdrData {
+		inline void forEachInLoadEntry(
+			const std::function< bool( LdrEntry * ) > &fn
+		);
 
-		std::uint32_t			m_length{};
-
-		std::uint8_t			m_initialized{};
+		std::uint32_t			_length{};
+		std::uint8_t			_initialized{};
 		std::uint8_t			$align0[ 3u ]{};
 
-		ptr_t							m_ss_handle{};
+		Mem								_ssHandle{};
 
-		LIST_ENTRY				m_in_load_modules{},
-											m_in_mem_modules{},
-											m_in_init_modules{};
+		LIST_ENTRY				_inLoadModules{},
+											_inMemModules{},
+											_inInitModules{};
 
-		ptr_t							m_in_entry{};
-		std::uint8_t			m_in_shutdown{};
+		Mem								_inEntry{};
+		std::uint8_t			_inShutdown{};
 
 		std::uint8_t			$align1[ 3u ]{};
-		ptr_t							m_shutdown_thread_id{};
+		Mem								_shutdownThreadId{};
 	};
 
-	struct peb_t {
-		std::uint8_t			m_ias{}, m_read_img_file_eo{},
-											m_being_debugged{};
+	struct Peb {
+		std::uint8_t			_ias{}, _readImgFileEo{},
+											_beingDebugged{};
 
-		bitfield_t< std::uint8_t > m_bit_field{};
+		Bitfield< std::uint8_t > _bidField{};
 
 		std::uint8_t			$align0[ 4u ]{};
 		
-		ptr_t							m_mutant{}, m_base_addr{};
+		Mem								_mutant{}, _baseAddress{};
 
-		ldr_data_t				*m_ldr_data{};
+		LdrData						*_ldrData{};
 
-		PRTL_USER_PROCESS_PARAMETERS m_user_proc_params{};
+		PRTL_USER_PROCESS_PARAMETERS _usrProcParams{};
 
-		ptr_t							m_subsys_data{}, m_heap{};
+		Mem								_subSysData{}, _heap{};
 
-		PRTL_CRITICAL_SECTION m_fast_peb_lock{};
+		PRTL_CRITICAL_SECTION _fastPebLock{};
 
-		ptr_t							m_spare_ptr{}, m_ifeo_key{};
+		Mem								_sparePtr{}, _ifeoKey{};
 
-		bitfield_t< std::uint32_t > m_cross_proc_flags{};
+		Bitfield< std::uint32_t > _crossProcessFlags{};
 
 		std::uint8_t			$align1[ 4u ]{};
 
-		ptr_t							m_kernel_cb_table{};
+		Mem								_kernelCallbackTable{};
 
 		/* the last is not to be rebuilt by now... */
 	};
@@ -86,22 +86,20 @@ namespace os {
 	inline auto peb( );
 }
 
-struct pe_desc_t {
-	inline constexpr pe_desc_t( ) = default;
+struct PeDesc {
+	inline constexpr PeDesc( ) = default;
 
-	inline constexpr pe_desc_t(
-		const ptr_t base )
-		: m_base{ base }
+	inline constexpr PeDesc( const Mem base )
+		: _base{ base }
 	{}
 
-	inline constexpr pe_desc_t(
-		const HMODULE base )
-		: m_base{ base }
+	inline constexpr PeDesc( const HMODULE base )
+		: _base{ base }
 	{}
 
-	inline auto dos_hdr( ) const;
+	inline auto dosHeader( ) const;
 
-	inline auto nt_hdr( ) const;
+	inline auto ntHeader( ) const;
 
 	inline auto size( ) const;
 
@@ -109,7 +107,7 @@ struct pe_desc_t {
 
 	inline auto end( ) const;
 
-	ptr_t m_base{};
+	Mem		_base{};
 };
 
 #include "os.inline.inl"

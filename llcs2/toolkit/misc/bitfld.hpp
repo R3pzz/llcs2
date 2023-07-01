@@ -2,23 +2,26 @@
 
 template < typename _MyBase >
 	requires std::is_arithmetic_v< _MyBase >
-struct bitfield_t {
-	using base_type = _MyBase;
+struct Bitfield {
+	typedef
+		_MyBase
+		BaseType;
 
-	inline constexpr bitfield_t( ) = default;
+	inline constexpr Bitfield( ) = default;
 
-	inline constexpr bitfield_t(
-		const base_type base )
-		: m_base{ base }
+	inline constexpr Bitfield( const BaseType base )
+		: _base{ base }
 	{}
 
 	inline constexpr bool at(
-		const std::size_t bit ) const;
+		const std::size_t bit
+	) const;
 
 	inline constexpr void set(
-		const std::size_t bit, const bool state ) const;
+		const std::size_t bit, const bool state
+	) const;
 
-	base_type m_base{};
+	BaseType _base{};
 };
 
 #include "bitfld.inline.inl"
