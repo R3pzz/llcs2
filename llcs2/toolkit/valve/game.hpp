@@ -7,18 +7,6 @@ namespace valve {
 			const char		*_name{};
 		};
 
-		struct ClassBinding {
-			ClassBinding	*_parent{};
-
-			const char		*_binName{},
-										*_moduleName{},
-										*_className{};
-
-			std::uint8_t	$align0[ 24u ]{};
-
-			SchemaType		*_schemaType{};
-		};
-
 		struct TypeInfo {
 			std::uint8_t	$align0[ 8u ]{};
 
@@ -33,9 +21,8 @@ namespace valve {
 			std::uint8_t	$align0[ 14u ]{};
 		};
 
-		struct ClassInfo {
-			std::uint8_t	$align0[ 8u ]{};
-			
+		struct ClassBinding {
+			ClassBinding	*_parent{};
 			const char		*_name{}, *_module{};
 			std::uint32_t	_size{};
 			std::uint16_t _fieldSize{},
@@ -59,7 +46,7 @@ namespace valve {
 
 		BindingTable		_bindings{};
 
-		_LLCS2_INTERFACE( findClass( const char *name ),
-			_LLCS2_INTERF_CONV( ClassInfo *, const char * ), 2u, name );
+		_LLCS2_INTERFACE( findBinding( const char *name ),
+			_LLCS2_INTERF_CONV( ClassBinding *, const char * ), 2u, name );
 	};
 }

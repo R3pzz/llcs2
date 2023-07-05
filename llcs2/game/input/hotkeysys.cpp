@@ -7,7 +7,7 @@ bool on_exit( ) {
 }
 
 bool on_print( ) {
-	std::printf( "on_print has been called\n" );
+	_LLCS2_LOG( "on_print has been called\n" );
 
 	/* this hotkey should never be turned on */
 	return false;

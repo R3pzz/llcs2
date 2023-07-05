@@ -22,6 +22,22 @@ inline auto Declaration { \
 
 #define _LLCS2_BYTESEQ( String, Start, End ) ByteSequence< ByteString::bytenum( String ) >{ ByteString{ String } }.seek( Start, End )
 
+#ifndef _LLCS2_DISABLE_LOG
+#define _LLCS2_DISABLE_LOG 1
+#endif
+
+#if _DEBUG && !_LLCS2_DISABLE_LOG
+#define _LLCS2_LOG( What, ... ) std::printf( What, __VA_ARGS__ )
+#else
+#define _LLCS2_LOG( What, ... )
+#endif
+
+#if _DEBUG
+#define _LLCS2_LOG_IMPORTANT( What, ... ) std::printf( What, __VA_ARGS__ )
+#else
+#define _LLCS2_LOG_IMPORTANT( What, ... )
+#endif
+
 #include <algorithm>
 #include <array>
 #include <functional>

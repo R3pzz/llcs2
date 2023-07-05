@@ -35,6 +35,8 @@ class Runtime {
 	InterfaceTable	_knownInterfaces{};
 	/** A list of the addresses we've managed to find/pattern-scan */
 	AuxAddressTable _auxAddresses{};
+	/* A list of the offsets we've managed to extract from the schema system */
+	OffsetTable			_knownOffsets{};
 
 	/** The console's out stream */
 	std::FILE				*_consoleOut{};
@@ -47,8 +49,6 @@ class Runtime {
 	void extractModuleData( );
 	/** Parses the modules for the byte patterns */
 	void findAuxAddresses( );
-	/** Parses schema type scopes for field infos */
-	void extractSchemaData( );
 	/** Initializes the input system */
 	void initializeInput( );
 
