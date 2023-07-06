@@ -15,7 +15,7 @@ template < typename _MyBase >
 inline auto detail::BaseMem< _MyBase >::jump(
 	const DiffType base_off
 ) const {
-	return offset( *offset( base_off ).as< std::uint32_t * >( ) );
+	return offset( *offset( base_off ).as< std::int32_t * >( ) + 0x4 + base_off );
 }
 
 template < typename _MyBase >

@@ -1,4 +1,4 @@
-#include <game/runtime/runtime.hpp>
+#include <game/game.hpp>
 
 bool on_exit( ) {
 	std::exit( 0 );

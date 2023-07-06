@@ -1,4 +1,4 @@
-#include <game/runtime/runtime.hpp>
+#include <game/game.hpp>
 
 LRESULT WINAPI CustomWindowProc( HWND wnd, UINT msg,
 	WPARAM wparam, LPARAM lparam

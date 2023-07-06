@@ -47,6 +47,18 @@ namespace valve {
 		BindingTable		_bindings{};
 
 		_LLCS2_INTERFACE( findBinding( const char *name ),
-			_LLCS2_INTERF_CONV( ClassBinding *, const char * ), 2u, name );
+			_LLCS2_BUILD_CONV( ClassBinding *, const char * ), 2u, name );
+	};
+
+	struct EntityIdentity {
+		
+	};
+
+	struct EntityInstance {
+
+	};
+
+	struct Entity {
+
 	};
 }

@@ -12,14 +12,6 @@
 	_LLCS2_DEF_CTOR_BASE( Class, Class &&, delete ); \
 	_LLCS2_DEF_ASSIGN_BASE( Class, Class &&, delete );
 
-#define _LLCS2_INTERFACE( Declaration, Convention, Index, ... ) \
-inline auto Declaration { \
-	return ( *Mem{ this }.as< Mem ** >( ) )[ Index ] \
-		.as< Convention >( )( this, __VA_ARGS__ ); \
-}
-
-#define _LLCS2_INTERF_CONV( Result, ... ) Result( __thiscall * )( decltype( this ), __VA_ARGS__ )
-
 #define _LLCS2_BYTESEQ( String, Start, End ) ByteSequence< ByteString::bytenum( String ) >{ ByteString{ String } }.seek( Start, End )
 
 #ifndef _LLCS2_DISABLE_LOG
@@ -53,7 +45,3 @@ inline auto Declaration { \
 #include "mem/mem.hpp"
 #include "mem/bytes.hpp"
 #include "mem/os.hpp"
-
-#include "valve/misc.hpp"
-#include "valve/game.hpp"
-#include "valve/interfaces.hpp"

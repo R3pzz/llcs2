@@ -1,7 +1,5 @@
 #pragma once
 
-#include "hotkeysys.hpp"
-
 class InputSystem {
 	_LLCS2_NO_COPY( InputSystem );
 

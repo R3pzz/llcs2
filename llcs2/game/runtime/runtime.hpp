@@ -1,7 +1,5 @@
 #pragma once
 
-#include <game/input/inputsys.hpp>
-
 class Runtime {
 	_LLCS2_NO_COPY( Runtime );
 

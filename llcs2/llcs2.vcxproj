@@ -25,6 +25,7 @@
     <ClCompile Include="game\input\hotkeysys.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="game\game.hpp" />
     <ClInclude Include="game\runtime\runtime.hpp" />
     <ClInclude Include="game\input\hotkeysys.hpp" />
     <ClInclude Include="game\input\inputsys.hpp" />
@@ -36,9 +37,9 @@
     <ClInclude Include="toolkit\misc\hash.hpp" />
     <ClInclude Include="toolkit\misc\strings.hpp" />
     <ClInclude Include="toolkit\toolkit.hpp" />
-    <ClInclude Include="toolkit\valve\game.hpp" />
-    <ClInclude Include="toolkit\valve\interfaces.hpp" />
-    <ClInclude Include="toolkit\valve\misc.hpp" />
+    <ClInclude Include="game\valve\game.hpp" />
+    <ClInclude Include="game\valve\interfaces.hpp" />
+    <ClInclude Include="game\valve\misc.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\input\hotkeysys.inline.inl" />
@@ -48,7 +49,7 @@
     <None Include="toolkit\misc\bitfld.inline.inl" />
     <None Include="toolkit\misc\hash.inline.inl" />
     <None Include="toolkit\misc\strings.inline.inl" />
-    <None Include="toolkit\valve\misc.inline.inl" />
+    <None Include="game\valve\misc.inline.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

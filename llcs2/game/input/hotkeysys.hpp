@@ -1,7 +1,5 @@
 #pragma once
 
-#include <toolkit/toolkit.hpp>
-
 struct HotkeyDesc {
 	typedef
 		bool( __cdecl *
@@ -13,7 +11,7 @@ struct HotkeyDesc {
 		kToggle,
 		/** Activation by holding the button */
 		kHold,
-		/** Dectivation by holding the button */
+		/** Deactivation by holding the button */
 		kInverseHold,
 		/** Activation by double-pressing the button */
 		kDoublePress,

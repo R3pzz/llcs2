@@ -44,13 +44,13 @@
     <ClInclude Include="toolkit\misc\hash.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="toolkit\valve\misc.hpp">
+    <ClInclude Include="game\valve\misc.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="toolkit\valve\interfaces.hpp">
+    <ClInclude Include="game\valve\interfaces.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="toolkit\valve\game.hpp">
+    <ClInclude Include="game\valve\game.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="toolkit\misc\strings.hpp">
@@ -69,6 +69,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="toolkit\mem\bytes.inline.inl">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="game\game.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,7 +97,7 @@
     <None Include="game\input\inputsys.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="toolkit\valve\misc.inline.inl">
+    <None Include="game\valve\misc.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
   </ItemGroup>

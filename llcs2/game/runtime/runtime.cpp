@@ -1,4 +1,4 @@
-#include "runtime.hpp"
+#include <game/game.hpp>
 
 void parseInterfaces( const PeDesc pe,
 	std::unordered_map< std::size_t, Mem > &out
@@ -22,7 +22,7 @@ void parseInterfaces( const PeDesc pe,
 		Node				*_next{};
 	};
 
-	auto entry = *Mem{ base }.jump( 0x3 ).offset( 0x7 ).as< Node ** >( );
+	auto entry = *Mem{ base }.jump( 0x3 ).as< Node ** >( );
 
 	for ( auto i = entry; i; i = i->_next ) {
 		_LLCS2_LOG( "[InterfaceWalk] | Interface: %s (getter: %p, addr: %p, next: %p)\n",
@@ -112,9 +112,9 @@ void Runtime::extractModuleData( ) {
 	const auto client = _knownModules.at( _( "client.dll" ) );
 	const auto engine = _knownModules.at( _( "engine2.dll" ) );
 
-	valve::gEntitySystem = _LLCS2_BYTESEQ( "48 8B 0D ? ? ? ? 33 D2 E8 ? ? ? ? 65",
+	valve::gEntitySystem = *_LLCS2_BYTESEQ( "48 8B 0D ? ? ? ? 33 D2 E8 ? ? ? ? 65",
 		client.start( ), client.end( )
-	).jump( 0x3 ).offset( 0x7 ).as< valve::EntitySystem * >( );
+	).jump( 0x3 ).as< valve::EntitySystem ** >( );
 
 	valve::gInputSystem = _knownInterfaces.at( _( "InputSystemVersion001" ) ).as< valve::InputSystem * >( );
 
