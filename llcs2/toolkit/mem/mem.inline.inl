@@ -27,9 +27,7 @@ inline auto detail::BaseMem< _MyBase >::deref(
 	if ( !depth )
 		return *this;
 
-	_base = *as< BaseType * >( );
-
-	return deref( depth - 1ull );
+	return BaseMem< _MyBase >{ _base }.deref( depth - 1ull );
 }
 
 template < typename _MyBase >

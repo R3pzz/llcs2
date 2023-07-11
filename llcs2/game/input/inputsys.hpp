@@ -9,7 +9,8 @@ class InputSystem {
 
 	/** The game's original window process */
 	WNDPROC				_originalWindowProc{};
-	/** The game's main window */
+	/** The game's main window.
+			P.s. Should we expand this for a multi-window support? */
 	HWND					_mainWindow{};
 
 	/** The hotkey system */
@@ -29,6 +30,9 @@ public:
 
 	/** Getter for the hotkey system */
 	inline HotkeySystem &getHotkeySystem( );
+
+	/** Getter for the platform window */
+	inline HWND &getPlatformWindow( );
 };
 
 inline const auto gInput = std::make_unique< InputSystem >( );

@@ -9,7 +9,15 @@ bool on_exit( ) {
 bool on_print( ) {
 	_LLCS2_LOG( "on_print has been called\n" );
 
-	/* this hotkey should never be turned on */
+	/* this hotkey should never be on */
+	return false;
+}
+
+bool on_local_player( ) {
+	const auto local = valve::gEntitySystem->getEntity( 1u );
+
+	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Found local player at %p\n", local );
+
 	return false;
 }
 
@@ -88,6 +96,7 @@ void HotkeySystem::onPoll( UINT msg, WPARAM wparam, LPARAM lparam ) {
 void HotkeySystem::initializeSystemHotkeys( ) {
 	addHotkey( VK_END,	{ true, true, HotkeyDesc::kToggle, on_exit	} );
 	addHotkey( VK_HOME, { true, true, HotkeyDesc::kToggle, on_print } );
+	addHotkey( VK_UP,		{ true, true, HotkeyDesc::kToggle, on_local_player } );
 }
 
 bool HotkeySystem::addHotkey( const std::size_t scan_code,

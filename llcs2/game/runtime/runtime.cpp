@@ -36,7 +36,7 @@ void parseInterfaces( const PeDesc pe,
 }
 
 void extractSchemaData( const std::string_view module,
-	std::unordered_map< std::size_t, Mem > &out
+	std::unordered_map< std::size_t, std::ptrdiff_t > &out
 ) {
 	const auto scope = valve::gSchemaSystem->typeScopeForModule( module.data( ) );
 	if ( !scope )
@@ -44,7 +44,7 @@ void extractSchemaData( const std::string_view module,
 
 	const auto bindings = &scope->_bindings;
 
-	_LLCS2_LOG( "[SchemaWalk] | Binding table for a module %s: %p, size: %i\n",
+	_LLCS2_LOG_IMPORTANT_F( "[SchemaWalk] | Binding table for a module %s: %p, size: %i\n",
 		module.data( ), bindings, bindings->_size
 	);
 
@@ -53,16 +53,12 @@ void extractSchemaData( const std::string_view module,
 			if ( !binding )
 				return true;
 
-			_LLCS2_LOG( "  [SchemaWalk] | Found a class (name: %s, at: %p)\n",
+			_LLCS2_LOG_IMPORTANT_F( "  [SchemaWalk] | Found a class (name: %s, at: %p)\n",
 				binding->_name, binding
 			);
 
 			for ( std::uint16_t i{}; i < binding->_fieldSize; i++ ) {
 				auto &field = binding->_fields[ i ];
-
-				_LLCS2_LOG( "    [SchemaWalk] | Found a field (name: %s, type: %s, offset: %u, at: %p)\n",
-					field._name, field._typeInfo->_name, field._offset, &field
-				);
 
 				char str[ 512u ]{};
 
@@ -70,6 +66,10 @@ void extractSchemaData( const std::string_view module,
 				std::strcat( str, "." );
 				std::strcat( str, field._name );
 				std::strcat( str, "\0" );
+
+				_LLCS2_LOG_IMPORTANT_F( "    [SchemaWalk] | Found a field (name: %s, type: %s, offset: %u, at: %p, hash: %zu)\n",
+					str, field._typeInfo->_name, field._offset, &field, hash( str )
+				);
 
 				out.insert_or_assign( hash( str ), field._offset );
 			}
@@ -84,10 +84,12 @@ void Runtime::attachConsole( ) {
 	AttachConsole( ATTACH_PARENT_PROCESS );
 
 	freopen_s( &_consoleOut, "CONOUT$", "w", stdout );
+	fopen_s( &_logOut, "llcs2_log.txt", "w" );
 }
 
 void Runtime::detachConsole( ) {
 	std::fclose( _consoleOut );
+	std::fclose( _logOut );
 
 	FreeConsole( );
 }
@@ -101,6 +103,10 @@ void Runtime::extractModuleData( ) {
 				PeDesc{ entry->_dllBase }
 			);
 
+			_LLCS2_LOG( "[Main Thread] | Parsing %s..\n",
+				toNarrow( entry->_baseDllName.wstr( ) ).c_str( )
+			);
+
 			parseInterfaces( entry->_dllBase,
 				_knownInterfaces
 			);
@@ -111,14 +117,19 @@ void Runtime::extractModuleData( ) {
 
 	const auto client = _knownModules.at( _( "client.dll" ) );
 	const auto engine = _knownModules.at( _( "engine2.dll" ) );
+	const auto rendersystemdx11 = _knownModules.at( _( "rendersystemdx11.dll" ) );
 
-	valve::gEntitySystem = *_LLCS2_BYTESEQ( "48 8B 0D ? ? ? ? 33 D2 E8 ? ? ? ? 65",
-		client.start( ), client.end( )
-	).jump( 0x3 ).as< valve::EntitySystem ** >( );
+	valve::gResourceSystem = _knownInterfaces.at( _( "GameResourceServiceClientV001" ) ).as< valve::ResourceSystem * >( );
+
+	valve::gEntitySystem = *Mem{ valve::gResourceSystem }.offset( 0x58 ).as< valve::EntitySystem ** >( );
 
 	valve::gInputSystem = _knownInterfaces.at( _( "InputSystemVersion001" ) ).as< valve::InputSystem * >( );
 
 	valve::gSchemaSystem = _knownInterfaces.at( _( "SchemaSystem_001" ) ).as< valve::SchemaSystem * >( );
+
+	valve::gRenderDeviceDx11 = _LLCS2_BYTESEQ( "48 89 05 ? ? ? ? 33 D2 66",
+		rendersystemdx11.start( ), rendersystemdx11.end( )
+	).jump( 0x3 ).as< valve::RenderDeviceDx11 * >( );
 
 	ldr->forEachInLoadEntry(
 		[ this ]( os::LdrEntry *entry ) {
@@ -140,11 +151,33 @@ void Runtime::findAuxAddresses( ) {
 void Runtime::initializeInput( ) {
 	gInput->initializeAll( );
 
-	_LLCS2_LOG( "[Main Thread] | Input initialized\n" );
+	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Input initialized\n" );
+}
+
+void Runtime::initializeRender( ) {
+	gRender->initializeAll( );
+
+	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Render initialized\n" );
+}
+
+void Runtime::initializeHooks( ) {
+	MH_Initialize( );
+
+	auto swapchain = valve::gRenderDeviceDx11->getSwapchain( )->_swapchain;
+	
+	if ( const auto res = _LLCS2_HOOK( _LLCS2_LOOKUP_VMT( swapchain, 8u ), hooks::present, hooks::gOriginalPresent ) )
+		_LLCS2_LOG_IMPORTANT( "[Main Thread] | Failed to create IDXGISwapChain::Present hook with a code of %i!\n", res );
+
+	if ( const auto res = _LLCS2_HOOK( _LLCS2_LOOKUP_VMT( swapchain, 13u ), hooks::resizeBuffers, hooks::gOriginalResizeBuffers ) )
+		_LLCS2_LOG_IMPORTANT( "[Main Thread] | Failed to create IDXGISwapChain::ResizeBuffers hook with a code of %i!\n", res );
+
+	MH_EnableHook( MH_ALL_HOOKS );
+
+	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Hooks initialized\n" );
 }
 
 void performTests( ) {
-	
+	_LLCS2_LOG_IMPORTANT( "[Main Thread] | DXGI Swapchain at %p\n", valve::gRenderDeviceDx11->getSwapchain( )->_swapchain );
 }
 
 void Runtime::initializeWorkers( ) {
@@ -157,6 +190,10 @@ void Runtime::initializeWorkers( ) {
 	performTests( );
 
 	initializeInput( );
+
+	initializeRender( );
+
+	initializeHooks( );
 
 	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Initialization finished\n" );
 

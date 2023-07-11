@@ -8,6 +8,6 @@ inline void valve::UtlTsHash< _Contained >::forEachElement(
 	
 	for ( auto header = _bucket._container; header; header = header->_next )
 		for ( std::size_t j{}; i < _size && j < 256u; i++, j++ )
-			if ( fn( header->_blockList[ i ]._data ) )
+			if ( fn( header->_blockList[ j ]._data ) )
 				return;
 }

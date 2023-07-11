@@ -39,6 +39,12 @@ namespace valve {
 
 		inline void forEachElement( const std::function< bool( ContainedType ) > &fn ) const;
 	};
+
+	struct SwapChainDx11 {
+		std::uint8_t			$align[ 376u ]{};
+
+		IDXGISwapChain		*_swapchain{};
+	};
 }
 
 #include "misc.inline.inl"

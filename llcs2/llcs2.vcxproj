@@ -20,15 +20,46 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="entry.cpp" />
+    <ClCompile Include="game\hacks\visual\esp\esp.cpp" />
+    <ClCompile Include="game\hooks\hooks.cpp" />
     <ClCompile Include="game\input\inputsys.cpp" />
+    <ClCompile Include="game\render\rendersys.cpp" />
     <ClCompile Include="game\runtime\runtime.cpp" />
     <ClCompile Include="game\input\hotkeysys.cpp" />
+    <ClCompile Include="thirdparty\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="thirdparty\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="thirdparty\minhook\src\buffer.c" />
+    <ClCompile Include="thirdparty\minhook\src\hde\hde64.c" />
+    <ClCompile Include="thirdparty\minhook\src\hook.c" />
+    <ClCompile Include="thirdparty\minhook\src\trampoline.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\game.hpp" />
+    <ClInclude Include="game\hacks\visual\esp\esp.hpp" />
+    <ClInclude Include="game\hooks\hooks.hpp" />
+    <ClInclude Include="game\render\rendersys.hpp" />
     <ClInclude Include="game\runtime\runtime.hpp" />
     <ClInclude Include="game\input\hotkeysys.hpp" />
     <ClInclude Include="game\input\inputsys.hpp" />
+    <ClInclude Include="thirdparty\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="thirdparty\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="thirdparty\imgui\imconfig.h" />
+    <ClInclude Include="thirdparty\imgui\imgui.h" />
+    <ClInclude Include="thirdparty\imgui\imgui_internal.h" />
+    <ClInclude Include="thirdparty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="thirdparty\imgui\imstb_textedit.h" />
+    <ClInclude Include="thirdparty\imgui\imstb_truetype.h" />
+    <ClInclude Include="thirdparty\minhook\MinHook.h" />
+    <ClInclude Include="thirdparty\minhook\src\buffer.h" />
+    <ClInclude Include="thirdparty\minhook\src\hde\hde64.h" />
+    <ClInclude Include="thirdparty\minhook\src\hde\pstdint.h" />
+    <ClInclude Include="thirdparty\minhook\src\hde\table64.h" />
+    <ClInclude Include="thirdparty\minhook\src\trampoline.h" />
     <ClInclude Include="toolkit\mem\bytes.hpp" />
     <ClInclude Include="toolkit\mem\bytes.inline.inl" />
     <ClInclude Include="toolkit\mem\mem.hpp" />
@@ -37,13 +68,15 @@
     <ClInclude Include="toolkit\misc\hash.hpp" />
     <ClInclude Include="toolkit\misc\strings.hpp" />
     <ClInclude Include="toolkit\toolkit.hpp" />
-    <ClInclude Include="game\valve\game.hpp" />
+    <ClInclude Include="game\valve\classes.hpp" />
     <ClInclude Include="game\valve\interfaces.hpp" />
     <ClInclude Include="game\valve\misc.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\input\hotkeysys.inline.inl" />
     <None Include="game\input\inputsys.inline.inl" />
+    <None Include="game\runtime\runtime.inline.inl" />
+    <None Include="game\valve\interfaces.inline.inl" />
     <None Include="toolkit\mem\os.inline.inl" />
     <None Include="toolkit\mem\mem.inline.inl" />
     <None Include="toolkit\misc\bitfld.inline.inl" />
@@ -114,6 +147,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

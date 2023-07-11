@@ -12,7 +12,7 @@ inline auto toNarrow(
 
 	std::string narrow{};
 
-	narrow.reserve( new_len );
+	narrow.resize( new_len );
 
 	WideCharToMultiByte( CP_UTF8, 0, str.data( ), str.size( ), narrow.data( ), new_len, nullptr, nullptr );
 
@@ -31,7 +31,7 @@ inline auto toWide(
 
 	std::wstring wide{};
 
-	wide.reserve( new_len );
+	wide.resize( new_len );
 
 	MultiByteToWideChar( CP_UTF8, 0ul, str.data( ), -1, wide.data( ), new_len );
 

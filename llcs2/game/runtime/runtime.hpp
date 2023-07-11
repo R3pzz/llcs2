@@ -23,7 +23,7 @@ class Runtime {
 
 	typedef
 		std::unordered_map<
-			std::size_t, Mem
+			std::size_t, std::ptrdiff_t
 		>
 		OffsetTable;
 
@@ -36,8 +36,8 @@ class Runtime {
 	/* A list of the offsets we've managed to extract from the schema system */
 	OffsetTable			_knownOffsets{};
 
-	/** The console's out stream */
-	std::FILE				*_consoleOut{};
+	/** Logging streams */
+	std::FILE				*_consoleOut{}, *_logOut{};
 
 	/** Attaches a console to the parent process */
 	void attachConsole( );
@@ -49,11 +49,21 @@ class Runtime {
 	void findAuxAddresses( );
 	/** Initializes the input system */
 	void initializeInput( );
+	/** Initializes the render system */
+	void initializeRender( );
+	/** Initializes the hooks */
+	void initializeHooks( );
 
 public:
 	inline constexpr Runtime( ) = default;
+
+	inline std::ptrdiff_t getOffset( const std::size_t name ) const;
+
+	inline std::FILE *getLogOut( );
 
 	void initializeWorkers( );
 };
 
 inline const auto gRuntime = std::make_unique< Runtime >( );
+
+#include "runtime.inline.inl"
