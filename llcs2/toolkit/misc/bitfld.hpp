@@ -9,7 +9,7 @@ struct Bitfield {
 
 	inline constexpr Bitfield( ) = default;
 
-	inline constexpr Bitfield( const BaseType base )
+	inline constexpr Bitfield( const _MyBase base )
 		: _base{ base }
 	{}
 

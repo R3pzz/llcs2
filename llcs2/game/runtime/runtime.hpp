@@ -39,6 +39,9 @@ class Runtime {
 	/** Logging streams */
 	std::FILE				*_consoleOut{}, *_logOut{};
 
+	/** The default cheat config */
+	Config					*_defaultConfig{};
+
 	/** Attaches a console to the parent process */
 	void attachConsole( );
 	/** Detaches the console from the game process */
@@ -51,6 +54,8 @@ class Runtime {
 	void initializeInput( );
 	/** Initializes the render system */
 	void initializeRender( );
+	/** Caches the default cheat config */
+	void cacheDefaultConfig( );
 	/** Initializes the hooks */
 	void initializeHooks( );
 
@@ -59,11 +64,15 @@ public:
 
 	inline std::ptrdiff_t getOffset( const std::size_t name ) const;
 
+	inline PeDesc getPeDesc( const std::size_t name ) const;
+
 	inline std::FILE *getLogOut( );
+
+	inline Config *getConfig( );
 
 	void initializeWorkers( );
 };
 
-inline const auto gRuntime = std::make_unique< Runtime >( );
+inline const auto _runtime = std::make_unique< Runtime >( );
 
 #include "runtime.inline.inl"

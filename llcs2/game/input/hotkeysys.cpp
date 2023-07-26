@@ -1,22 +1,25 @@
 #include <game/game.hpp>
 
 bool on_exit( ) {
+	//_runtime->getConfig( )->saveToFile( );
+
 	std::exit( 0 );
 
 	return true;
 }
 
-bool on_print( ) {
-	_LLCS2_LOG( "on_print has been called\n" );
+bool on_esp_toggle( ) {
+	_espSystem->setState( !_espSystem->getState( ) );
 
-	/* this hotkey should never be on */
-	return false;
+	return _espSystem->getState( );
 }
 
-bool on_local_player( ) {
-	const auto local = valve::gEntitySystem->getEntity( 1u );
+bool on_find_mat( ) {
+	valve::Material **material{};
 
-	_LLCS2_LOG_IMPORTANT( "[Main Thread] | Found local player at %p\n", local );
+	valve::_materialSystem->findOrCreate( "materials/dev/reflectivity_90.vmat", &material );
+
+	_LLCS2_LOG_IMPORTANT( "[Game Thread] | Material at %p\n", material );
 
 	return false;
 }
@@ -95,8 +98,8 @@ void HotkeySystem::onPoll( UINT msg, WPARAM wparam, LPARAM lparam ) {
 
 void HotkeySystem::initializeSystemHotkeys( ) {
 	addHotkey( VK_END,	{ true, true, HotkeyDesc::kToggle, on_exit	} );
-	addHotkey( VK_HOME, { true, true, HotkeyDesc::kToggle, on_print } );
-	addHotkey( VK_UP,		{ true, true, HotkeyDesc::kToggle, on_local_player } );
+	addHotkey( VK_UP,		{ true, true, HotkeyDesc::kToggle, on_esp_toggle } );
+	addHotkey( VK_DOWN,	{ true, true, HotkeyDesc::kToggle, on_find_mat } );
 }
 
 bool HotkeySystem::addHotkey( const std::size_t scan_code,

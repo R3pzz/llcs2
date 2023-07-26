@@ -30,20 +30,29 @@ inline std::add_lvalue_reference_t< Type > Name { \
 
 #define _LLCS2_SCHEMA_F( Name, Type, Field ) \
 inline std::add_lvalue_reference_t< Type > Name { \
-	return *Mem{ this }.offset( gRuntime->getOffset( _( Field ) ) ).as< Type* >( ); \
+	return *Mem{ this }.offset( _runtime->getOffset( _( Field ) ) ).as< Type* >( ); \
+}
+
+#define _LLCS2_SCHEMA_F_PTR( Name, Type, Field ) \
+inline std::add_pointer_t< Type > Name { \
+	return Mem{ this }.offset( _runtime->getOffset( _( Field ) ) ).as< Type* >( ); \
 }
 
 #include "input/hotkeysys.hpp"
 #include "input/inputsys.hpp"
 
+#include "render/font.hpp"
 #include "render/rendersys.hpp"
 
-#include "hooks/hooks.hpp"
-
+#include "runtime/configsys.hpp"
 #include "runtime/runtime.hpp"
 
 #include "valve/misc.hpp"
 #include "valve/classes.hpp"
 #include "valve/interfaces.hpp"
 
-#include "hacks/visual/esp/esp.hpp"
+#include "hooks/hooks.hpp"
+
+#include "hacks/information/interface/uisys.hpp"
+#include "hacks/information/game/espsys.hpp"
+#include "hacks/scene/models/modelsys.hpp"

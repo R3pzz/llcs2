@@ -35,6 +35,6 @@ public:
 	inline HWND &getPlatformWindow( );
 };
 
-inline const auto gInput = std::make_unique< InputSystem >( );
+inline const auto _inputSystem = std::make_unique< InputSystem >( );
 
 #include "inputsys.inline.inl"

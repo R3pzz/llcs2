@@ -48,8 +48,44 @@ void RenderSystem::destroyContext( ) {
 	ImGui_ImplDX11_Shutdown( );
 }
 
+bool RenderSystem::projectViewToScreen( const glm::vec3 &view, glm::vec2 &screen ) {
+	if ( !_swapchain
+		|| !valve::_mvpMatrix )
+		return false;
+
+	DXGI_SWAP_CHAIN_DESC desc{};
+
+	_swapchain->GetDesc( &desc );
+
+	const int width = desc.BufferDesc.Width,
+		height = desc.BufferDesc.Height;
+
+	const auto &mat = *valve::_mvpMatrix;
+
+	const auto clip_coords = glm::vec4{
+		mat[ 0u ][ 0u ] * view[ 0u ] + mat[ 0u ][ 1u ] * view[ 1u ] + mat[ 0u ][ 2u ] * view[ 2u ] + mat[ 0u ][ 3u ],
+		mat[ 1u ][ 0u ] * view[ 0u ] + mat[ 1u ][ 1u ] * view[ 1u ] + mat[ 1u ][ 2u ] * view[ 2u ] + mat[ 1u ][ 3u ],
+		0.f,
+		mat[ 3u ][ 0u ] * view[ 0u ] + mat[ 3u ][ 1u ] * view[ 1u ] + mat[ 3u ][ 2u ] * view[ 2u ] + mat[ 3u ][ 3u ]
+	};
+
+	/** No need to calculate the off-depth vector here i guess */
+	if ( clip_coords.w < .001f )
+		return false;
+
+	glm::vec2 nd_coords{};
+
+	nd_coords.x = clip_coords.x / clip_coords.w;
+	nd_coords.y = clip_coords.y / clip_coords.w;
+
+	screen.x = nd_coords.x * width * .5f + width * .5f;
+	screen.y = nd_coords.y * -height * .5f + height * .5f;
+
+	return true;
+}
+
 void RenderSystem::initializeAll( ) {
-	_swapchain = valve::gRenderDeviceDx11->getSwapchain( )->_swapchain; 
+	_swapchain = valve::_renderDevice->getSwapchain( )->_swapchain; 
 	if ( !_swapchain )
 		return;
 
@@ -58,8 +94,6 @@ void RenderSystem::initializeAll( ) {
 	_swapchain->GetBuffer( 0u, IID_PPV_ARGS( &buffer ) );
 	if ( !buffer )
 		return;
-
-	_LLCS2_LOG_IMPORTANT( "[Render] | Got the swapchain buffer\n" );
 
 	_swapchain->GetDevice( IID_PPV_ARGS( &_device ) );
 	if ( !_device )
@@ -75,12 +109,19 @@ void RenderSystem::initializeAll( ) {
 
 	ImGui::CreateContext( );
 
-	ImGui_ImplWin32_Init( gInput->getPlatformWindow( ) );
+	{
+		Font calibri16{};
+
+		if ( !calibri16.fromTtf( "C:\\Windows\\Fonts\\calibri.ttf", Font::kOutlined, 16.f ) )
+			_LLCS2_LOG_IMPORTANT( "[Render] | Failed to initialize calibri16 font\n" );
+
+		_fontTable.insert_or_assign( _( "calibri16" ), std::move( calibri16 ) );
+	}
+
+	ImGui_ImplWin32_Init( _inputSystem->getPlatformWindow( ) );
 	ImGui_ImplDX11_Init( _device, _deviceCtx );
 
 	_isValid = true;
-
-	_LLCS2_LOG_IMPORTANT( "[Render] | Initialization successful\n" );
 }
 
 void RenderSystem::onPresentPre( IDXGISwapChain *swapchain,
@@ -109,6 +150,8 @@ void RenderSystem::onResizeBuffers( IDXGISwapChain *swapchain, const std::uint32
 	const std::uint32_t width, const std::uint32_t height, const DXGI_FORMAT new_format, const std::uint32_t flags
 ) {
 	destroyContext( );
+
+	_swapchain = valve::_renderDevice->getSwapchain( )->_swapchain;
 
 	_LLCS2_LOG_IMPORTANT( "[Render Thread] | onResizeBuffers called!\n" );
 }

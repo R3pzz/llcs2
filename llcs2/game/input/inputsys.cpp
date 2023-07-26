@@ -3,13 +3,13 @@
 LRESULT WINAPI CustomWindowProc( HWND wnd, UINT msg,
 	WPARAM wparam, LPARAM lparam
 ) {
-	gInput->onPoll( msg, wparam, lparam );
+	_inputSystem->onPoll( msg, wparam, lparam );
 
-	return CallWindowProcA( gInput->_originalWindowProc, wnd, msg, wparam, lparam );
+	return CallWindowProcA( _inputSystem->_originalWindowProc, wnd, msg, wparam, lparam );
 }
 
 void InputSystem::initializeAll( ) {
-	_mainWindow = valve::gInputSystem->_windowHandles[ 0u ];
+	_mainWindow = valve::_inputSystem->_windowHandles[ 0u ];
 	if ( !_mainWindow )
 		return;
 

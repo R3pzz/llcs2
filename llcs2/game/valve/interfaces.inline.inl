@@ -1,37 +1,11 @@
 #pragma once
 
-inline valve::PlayerController *valve::EntitySystem::getController( const std::uint32_t idx ) {
+inline valve::BaseEntity *valve::EntitySystem::getEntity( const std::uint32_t idx ) {
 	const auto chunk = *Mem{ this }.offset( 0x8 * ( idx >> 9u ) + 0x10 ).as< Mem * >( );
 	if ( !chunk )
 		return nullptr;
 
-	return *chunk.offset( 0x78 * idx ).as< PlayerController ** >( );
-}
-
-inline valve::BaseEntity *valve::EntitySystem::getEntity( PlayerController *controller ) {
-	if ( !controller )
-		return nullptr;
-
-	const auto handle = controller->getPawnHandle( );
-
-	if ( handle._handle >= 0xFFFFFFFDu )
-		return nullptr;
-
-	const auto chunk_index = ( handle._handle & 0x7FFFu ) >> 9u;
-
-	const auto chunk = *Mem{ this }.offset( 0x8 * chunk_index + 0x10 ).as< Mem * >( );
-	if ( !chunk )
-		return nullptr;
-
-	const auto slot_index = handle._handle & 0x1FFu;
-
-	return chunk.offset( 0x78 * slot_index ).as< BaseEntity * >( );
-}
-
-inline valve::BaseEntity *valve::EntitySystem::getEntity( const std::uint32_t idx ) {
-	const auto controller = getController( idx );
-
-	return getEntity( controller );
+	return *chunk.offset( 0x78 * idx ).as< BaseEntity ** >( );
 }
 
 inline valve::BaseEntity *valve::EntitySystem::getEntity( const Handle handle ) {
@@ -46,7 +20,43 @@ inline valve::BaseEntity *valve::EntitySystem::getEntity( const Handle handle ) 
 
 	const auto slot_index = handle._handle & 0x1FFu;
 
-	return chunk.offset( 0x78 * slot_index ).as< BaseEntity * >( );
+	return *chunk.offset( 0x78 * slot_index ).as< BaseEntity ** >( );
+}
+
+inline valve::EntityIdentity *valve::EntitySystem::getIdentity( const std::uint32_t idx ) {
+	const auto chunk = *Mem{ this }.offset( 0x8 * ( idx >> 9u ) + 0x10 ).as< Mem * >( );
+	if ( !chunk )
+		return nullptr;
+
+	return chunk.offset( 0x78 * idx ).as< EntityIdentity * >( );
+}
+
+inline valve::EntityIdentity *valve::EntitySystem::getIdentity( const Handle handle ) {
+	if ( handle._handle >= 0xFFFFFFFDu )
+		return nullptr;
+
+	const auto chunk_index = ( handle._handle & 0x7FFFu ) >> 9u;
+
+	const auto chunk = *Mem{ this }.offset( 0x8 * chunk_index + 0x10 ).as< Mem * >( );
+	if ( !chunk )
+		return nullptr;
+
+	const auto slot_index = handle._handle & 0x1FFu;
+
+	return chunk.offset( 0x78 * slot_index ).as< EntityIdentity* >( );
+}
+
+inline void valve::EntitySystem::forEachIdentity( const std::function< bool( EntityIdentity * ) > &fn ) {
+	auto start = getEntity( 0u )->getIdentity( );
+	if ( !start )
+		return;
+
+	for ( ; start->getPrevNode( ); start = start->getPrevNode( ) )
+		;
+
+	for ( auto node = start; node; node = node->getNextNode( ) )
+		if ( fn( node ) )
+			return;
 }
 
 inline valve::SwapChainDx11 *valve::RenderDeviceDx11::getSwapchain( ) {
