@@ -1,6 +1,6 @@
 #include <game/game.hpp>
 
-BoundingBox EspSystem::buildBoundingBox( valve::BaseEntity *entity ) const {
+BoundingBox hacks::EspSystem::buildBoundingBox( valve::BaseEntity *entity ) const {
 	if ( !entity )
 		return {};
 
@@ -35,7 +35,7 @@ BoundingBox EspSystem::buildBoundingBox( valve::BaseEntity *entity ) const {
 	return res;
 }
 
-void EspSystem::pushName( const EntityContext &ctx ) const {
+void hacks::EspSystem::pushName( const EntityContext &ctx ) const {
 	const auto &info = ctx._nameDrawInfo;
 	if ( !info._draw )
 		return;
@@ -45,7 +45,7 @@ void EspSystem::pushName( const EntityContext &ctx ) const {
 	);
 }
 
-void EspSystem::pushHealth( const EntityContext &ctx ) const {
+void hacks::EspSystem::pushHealth( const EntityContext &ctx ) const {
 	const auto &info = ctx._healthDrawInfo;
 	if ( !info._draw )
 		return;
@@ -67,7 +67,7 @@ void EspSystem::pushHealth( const EntityContext &ctx ) const {
 	);
 }
 
-void EspSystem::pushBox( const EntityContext &ctx ) const {
+void hacks::EspSystem::pushBox( const EntityContext &ctx ) const {
 	const auto &info = ctx._boxDrawInfo;
 	if ( !info._draw )
 		return;
@@ -85,9 +85,9 @@ void EspSystem::pushBox( const EntityContext &ctx ) const {
 	 Additional W2S computation may result in a slight performance decrease during the rendering
 	 phase. So we can just do it in the game thread while we're waiting for the render thread to
 	 present the frame. */
-void EspSystem::onPresent( ) {
-	if ( !_active
-		|| !valve::_engine->isInGame( ) )
+void hacks::EspSystem::onPresent( ) {
+	if ( !valve::_engine->isInGame( )
+		|| !_runtime->getConfig( )->getValue< bool >( _( "esp.enabled" ) ) )
 		return;
 
 	_contextList.clear( );

@@ -25,7 +25,6 @@ struct HotkeyDesc {
 	Activation	_activation{};
 	/** Callback to be called on the corresponding key press */
 	CallbackFn	_callback{};
-	/** Is the hotkey currently active */
 	bool				_active{};
 
 	inline constexpr HotkeyDesc( ) = default;

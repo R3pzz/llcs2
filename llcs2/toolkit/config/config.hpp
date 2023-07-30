@@ -37,10 +37,14 @@ class Config {
 public:
 	inline constexpr Config( ) = default;
 
-	inline constexpr Config( const std::filesystem::path &path )
+	inline Config( const std::filesystem::path &path )
 		: _path{ path } {}
 
 	static constexpr auto kConfigExtension = L".cfg";
+
+	template < typename _Type >
+		requires detail::kIsConfigValue< _Type >
+	inline _Type *getValueForWrite( const std::size_t name );
 
 	template < typename _Type >
 		requires detail::kIsConfigValue< _Type >

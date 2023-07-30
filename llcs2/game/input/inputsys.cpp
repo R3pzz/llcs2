@@ -1,9 +1,16 @@
 #include <game/game.hpp>
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
+
 LRESULT WINAPI CustomWindowProc( HWND wnd, UINT msg,
 	WPARAM wparam, LPARAM lparam
 ) {
+	_inputSystem->getHotkeySystem( ).setState( !hacks::_menu->getState( ) );
 	_inputSystem->onPoll( msg, wparam, lparam );
+
+	if ( ImGui_ImplWin32_WndProcHandler( wnd, msg, wparam, lparam ) )
+		if ( hacks::_menu->getState( ) )
+			return true;
 
 	return CallWindowProcA( _inputSystem->_originalWindowProc, wnd, msg, wparam, lparam );
 }

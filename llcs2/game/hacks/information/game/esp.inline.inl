@@ -1,6 +1,6 @@
 #pragma once
 
-inline bool EspSystem::storeContext( valve::EntityIdentity *identity ) {
+inline bool hacks::EspSystem::storeContext( valve::EntityIdentity *identity ) {
 	auto ent = identity->getOwner< valve::CSPlayerPawn >( );
 	if ( !ent
 		|| !ent->isPlayerPawn( ) )
@@ -54,12 +54,4 @@ inline bool EspSystem::storeContext( valve::EntityIdentity *identity ) {
 	_contextList.push_back( std::move( ctx ) );
 
 	return false;
-}
-
-inline void EspSystem::setState( const bool to ) {
-	_active = to;
-}
-
-inline bool EspSystem::getState( ) const {
-	return _active;
 }

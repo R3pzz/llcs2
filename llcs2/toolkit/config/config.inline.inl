@@ -16,6 +16,12 @@ inline bool Config::isPathValid( const std::filesystem::path &path ) {
 
 template < typename _Type >
 	requires detail::kIsConfigValue< _Type >
+inline _Type *Config::getValueForWrite( const std::size_t name ) {
+	return reinterpret_cast<_Type *>( &_elements[ name ]._bytes );
+}
+
+template < typename _Type >
+	requires detail::kIsConfigValue< _Type >
 inline _Type Config::getValue( const std::size_t name ) {
 	return *reinterpret_cast<_Type *>( &_elements[ name ]._bytes );
 }
@@ -23,11 +29,13 @@ inline _Type Config::getValue( const std::size_t name ) {
 template < typename _Type >
 	requires detail::kIsConfigValue< _Type >
 inline _Type Config::setValue( const std::size_t name, const _Type &value ) {
-	if constexpr ( sizeof( _Type ) > 16u )
-		return _Type{};
+	//if constexpr ( sizeof( _Type ) > 16u )
+	//	return _Type{};
+
+	using Bytes = std::array< std::uint8_t, sizeof( _Type ) >;
 
 	for ( std::size_t i{}; i < sizeof( _Type ); i++ )
-		_elements[ name ]._bytes.at( i ) = reinterpret_cast<Element::SerializedBytes *>( &value )->at( i );
+		_elements[ name ]._bytes.at( i ) = reinterpret_cast< const Bytes * >( &value )->at( i );
 
 	return value;
 }

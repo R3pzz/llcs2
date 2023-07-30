@@ -1,17 +1,13 @@
 #include <game/game.hpp>
 
 bool on_exit( ) {
-	//_runtime->getConfig( )->saveToFile( );
-
 	std::exit( 0 );
 
 	return true;
 }
 
-bool on_esp_toggle( ) {
-	_espSystem->setState( !_espSystem->getState( ) );
-
-	return _espSystem->getState( );
+bool on_menu_state( ) {
+	return hacks::_menu->onStateChange( );
 }
 
 bool on_find_mat( ) {
@@ -25,9 +21,6 @@ bool on_find_mat( ) {
 }
 
 void HotkeySystem::onPoll( UINT msg, WPARAM wparam, LPARAM lparam ) {
-	if ( !_enabled )
-		return;
-
 	if ( msg != WM_KEYDOWN
 		&& msg != WM_SYSKEYDOWN
 		&& msg != WM_KEYUP
@@ -43,7 +36,7 @@ void HotkeySystem::onPoll( UINT msg, WPARAM wparam, LPARAM lparam ) {
 
 		for ( auto desc : pair.second ) {
 			if ( !desc._system )
-				if ( !desc._enabled )
+				if ( !desc._enabled || !_enabled )
 					continue;
 
 			Bitfield< std::uint64_t > flags = lparam;
@@ -98,7 +91,7 @@ void HotkeySystem::onPoll( UINT msg, WPARAM wparam, LPARAM lparam ) {
 
 void HotkeySystem::initializeSystemHotkeys( ) {
 	addHotkey( VK_END,	{ true, true, HotkeyDesc::kToggle, on_exit	} );
-	addHotkey( VK_UP,		{ true, true, HotkeyDesc::kToggle, on_esp_toggle } );
+	addHotkey( VK_UP,		{ true, true, HotkeyDesc::kToggle, on_menu_state } );
 	addHotkey( VK_DOWN,	{ true, true, HotkeyDesc::kToggle, on_find_mat } );
 }
 

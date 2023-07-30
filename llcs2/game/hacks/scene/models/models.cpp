@@ -1,11 +1,11 @@
 #include <game/game.hpp>
 
-void ModelSystem::onFrameStageNotify( const valve::FrameStage stage ) {
+void hacks::Models::onFrameStageNotify( const valve::FrameStage stage ) {
 	if ( stage != valve::FrameStage::kRenderStart )
 		return;
 
 	valve::_entitySystem->forEachIdentity(
-		std::bind( &ModelSystem::dispatchEntity, this, std::placeholders::_1 )
+		std::bind( &Models::dispatchEntity, this, std::placeholders::_1 )
 	);
 
 	for ( const auto &info : _renderInfos ) {
@@ -15,7 +15,7 @@ void ModelSystem::onFrameStageNotify( const valve::FrameStage stage ) {
 	applyLighting( );
 }
 
-valve::Material *ModelSystem::onGetMaterialForDraw( valve::SceneObjectDesc *obj, valve::Material *mat,
+valve::Material *hacks::Models::onGetMaterialForDraw( valve::SceneObjectDesc *obj, valve::Material *mat,
 	valve::MaterialDrawDesc *desc, valve::SceneLayer *layer, bool *is_shadow
 ) {
 	if ( std::strstr( mat->getName( ), "characters/models" ) ) {

@@ -99,6 +99,59 @@ namespace valve {
 
 	struct Handle {
 		std::uint32_t		_handle{};
+
+		inline constexpr Handle( ) = default;
+
+		/** The implementation of this function lays in interfaces.inline.inl */
+		template < typename _Target >
+		inline _Target *resolve( ) const;
+	};
+
+	struct FogPlayerParams {
+		std::uint8_t	$align0[ 12u ]{};
+
+		float					_transitionTime{};
+		glm::vec4			_oldColor{};
+		float					_oldStart{},
+									_oldEnd{},
+									_oldMaxDensity{},
+									_oldHdrColorScale{},
+									_oldFarZ{};
+		glm::vec4			_newColor{};
+		float					_newStart{},
+									_newEnd{},
+									_newMaxDensity{},
+									_newHdrColorScale{},
+									_newFarZ{};
+	};
+
+	struct FogParams {
+		_LLCS2_SCHEMA_F( getPrimColor( ),
+			glm::vec4, "fogparams_t.colorPrimary" );
+
+		_LLCS2_SCHEMA_F( getSecColor( ),
+			glm::vec4, "fogparams_t.colorSecondary" );
+
+		_LLCS2_SCHEMA_F( getStart( ),
+			float, "fogparams_t.start" );
+
+		_LLCS2_SCHEMA_F( getEnd( ),
+			float, "fogparams_t.end" );
+
+		_LLCS2_SCHEMA_F( getMaxDensity( ),
+			float, "fogparams_t.maxdensity" );
+
+		_LLCS2_SCHEMA_F( getExponent( ),
+			float, "fogparams_t.exponent" );
+
+		_LLCS2_SCHEMA_F( getDuration( ),
+			float, "fogparams_t.duration" );
+
+		_LLCS2_SCHEMA_F( getFarZ( ),
+			float, "fogparams_t.farz" );
+
+		_LLCS2_SCHEMA_F( isEnabled( ),
+			bool, "fogparams_t.enable" );
 	};
 
 	struct EntityIdentity {
@@ -154,6 +207,45 @@ namespace valve {
 			bool, "CGlowProperty.m_bGlowing" );
 	};
 
+	struct PostProcessVolume {
+		_LLCS2_SCHEMA_F( getExpMin( ),
+			float, "C_PostProcessingVolume.m_flMinExposure" );
+
+		_LLCS2_SCHEMA_F( getExpMax( ),
+			float, "C_PostProcessingVolume.m_flMaxExposure" );
+	};
+
+	struct ColorCorrection {
+		_LLCS2_SCHEMA_F( isEnabled( ),
+			bool, "C_ColorCorrection.m_bEnabled" );
+
+		_LLCS2_SCHEMA_F( getMinFalloff( ),
+			float, "C_ColorCorrection.m_MinFalloff" );
+
+		_LLCS2_SCHEMA_F( getMaxFalloff( ),
+			float, "C_ColorCorrection.m_MaxFalloff" );
+	};
+
+	struct CameraServices {
+		_LLCS2_SCHEMA_F( getPostProcessVolume( ),
+			Handle, "CPlayer_CameraServices.m_hActivePostProcessingVolume" );
+
+		_LLCS2_SCHEMA_F( getColorCorrection( ),
+			Handle, "CPlayer_CameraServices.m_hColorCorrectionCtrl" );
+
+		_LLCS2_SCHEMA_F( getCurrentFog( ),
+			FogParams, "CPlayer_CameraServices.m_CurrentFog" );
+
+		_LLCS2_SCHEMA_F( getFogController( ),
+			Handle, "CPlayer_CameraServices.m_hOldFogController" );
+
+		_LLCS2_SCHEMA_F( getPlayerFog( ),
+			FogPlayerParams, "CPlayer_CameraServices.m_PlayerFog" );
+
+		_LLCS2_SCHEMA_F( getFov( ),
+			float, "CPlayer_CameraServices.m_iFOV" );
+	};
+
 	struct EntityInstance {
 		template < typename _CastType >
 		inline constexpr _CastType *as( );
@@ -184,6 +276,11 @@ namespace valve {
 			int, "C_BaseEntity.m_iHealth" );
 	};
 
+	struct FogController : BaseEntity {
+		_LLCS2_SCHEMA_F( getFog( ),
+			FogParams, "C_FogController.m_fog" );
+	};
+
 	struct ModelEntity : BaseEntity {
 		_LLCS2_SCHEMA_F( getGlowProperty( ),
 			GlowProperty, "C_BaseModelEntity.m_Glow" );
@@ -206,6 +303,9 @@ namespace valve {
 	struct BasePlayerPawn : BaseCombatCharacter {
 		_LLCS2_SCHEMA_F( getController( ),
 			Handle, "C_BasePlayerPawn.m_hController" );
+
+		_LLCS2_SCHEMA_F( getCameraServices( ),
+			CameraServices *, "C_BasePlayerPawn.m_pCameraServices" );
 	};
 
 	struct CSPlayerPawn : BasePlayerPawn {

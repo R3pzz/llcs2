@@ -53,6 +53,7 @@ inline std::add_pointer_t< Type > Name { \
 
 #include "hooks/hooks.hpp"
 
-#include "hacks/information/interface/uisys.hpp"
-#include "hacks/information/game/espsys.hpp"
-#include "hacks/scene/models/modelsys.hpp"
+#include "hacks/information/interface/menu.hpp"
+#include "hacks/information/game/esp.hpp"
+#include "hacks/scene/models/models.hpp"
+#include "hacks/scene/shading/shading.hpp"

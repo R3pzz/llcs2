@@ -66,7 +66,7 @@
     <ClCompile Include="game\hooks\hooks.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="game\hacks\information\game\espsys.cpp">
+    <ClCompile Include="game\hacks\information\game\esp.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="thirdparty\glm\detail\glm.cpp">
@@ -75,16 +75,19 @@
     <ClCompile Include="game\render\font.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="game\hacks\scene\models\modelsys.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="game\hacks\information\interface\uisys.cpp">
+    <ClCompile Include="game\hacks\scene\models\models.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="toolkit\config\config.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="game\runtime\configsys.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="game\hacks\information\interface\menu.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="game\hacks\scene\shading\shading.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,7 +185,7 @@
     <ClInclude Include="game\hooks\hooks.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="game\hacks\information\game\espsys.hpp">
+    <ClInclude Include="game\hacks\information\game\esp.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="thirdparty\glm\detail\_features.hpp">
@@ -1052,10 +1055,7 @@
     <ClInclude Include="toolkit\math\math.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="game\hacks\scene\models\modelsys.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="game\hacks\information\interface\uisys.hpp">
+    <ClInclude Include="game\hacks\scene\models\models.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="toolkit\config\config.hpp">
@@ -1197,6 +1197,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="game\runtime\configsys.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="game\hacks\information\interface\menu.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="game\hacks\scene\shading\shading.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1648,7 +1654,7 @@
     <None Include="thirdparty\glm\gtx\wrap.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="game\hacks\information\game\espsys.inline.inl">
+    <None Include="game\hacks\information\game\esp.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
     <None Include="game\valve\classes.inline.inl">
@@ -1663,16 +1669,16 @@
     <None Include="toolkit\math\math.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="game\hacks\scene\models\modelsys.inline.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="game\hacks\information\interface\uisys.inline.inl">
+    <None Include="game\hacks\scene\models\models.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
     <None Include="toolkit\config\config.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
     <None Include="game\runtime\configsys.inline.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="game\hacks\information\interface\menu.inline.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
   </ItemGroup>

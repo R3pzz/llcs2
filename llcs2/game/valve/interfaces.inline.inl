@@ -66,3 +66,8 @@ inline valve::SwapChainDx11 *valve::RenderDeviceDx11::getSwapchain( ) {
 
 	return *swapchain_holder.offset( 0x10 ).as<SwapChainDx11 **>( );
 }
+
+template < typename _Target >
+inline _Target *valve::Handle::resolve( ) const {
+	return _entitySystem->getEntity( *this )->as< _Target >( );
+}

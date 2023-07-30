@@ -5,7 +5,9 @@ HRESULT __stdcall hooks::present( IDXGISwapChain *swapchain,
 ) {
 	_renderSystem->onPresentPre( swapchain, sync, flags );
 
-	_espSystem->onPresent( );
+	hacks::_menu->onPresent( );
+
+	hacks::_esp->onPresent( );
 
 	_renderSystem->onPresentPost( swapchain, sync, flags );
 
@@ -23,11 +25,13 @@ HRESULT __stdcall hooks::resizeBuffers( IDXGISwapChain *swapchain, const std::ui
 void __fastcall hooks::frameStageNotify( const Mem client,
 	const valve::FrameStage stage
 ) {
+	hacks::_shading->onFrameStageNotify( stage );
+
 	return _originalFrameStageNotify( client, stage );
 }
 
 valve::Material *__fastcall hooks::getMaterialForDraw( valve::SceneObjectDesc *obj, valve::Material *mat,
 	valve::MaterialDrawDesc *desc, valve::SceneLayer *layer, bool *is_shadow
 ) {
-	return _modelSystem->onGetMaterialForDraw( obj, mat, desc, layer, is_shadow );
+	return hacks::_models->onGetMaterialForDraw( obj, mat, desc, layer, is_shadow );
 }
